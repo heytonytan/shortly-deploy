@@ -95,11 +95,7 @@ module.exports = function(grunt) {
       client: {
         src: ['public/client/*.js'],
         dest: 'public/dist/client.js',
-      },
-      lib: {
-        src: ['public/lib/*.js'],
-        dest: 'public/dist/lib.js',
-      },
+      }
     },
 
     uglify: {
@@ -109,7 +105,10 @@ module.exports = function(grunt) {
       target: {
         files: {
           'public/dist/client.min.js': ['public/dist/client.js'],
-          'public/dist/lib.min.js': ['public/dist/lib.js'],
+          'public/dist/backbone.min.js': ['public/lib/backbone.js'],
+          'public/dist/handlebars.min.js': ['public/lib/handlebars.js'],
+          'public/dist/jquery.min.js': ['public/lib/jquery.js'],
+          'public/dist/underscore.min.js': ['public/lib/underscore.js'],
         }
       }
     },
