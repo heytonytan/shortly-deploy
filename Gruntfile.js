@@ -27,6 +27,11 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      target: {
+        files: {
+          'public/dist/style.min.css': ['public/style.css'],
+        }
+      }
     },
 
     watch: {
@@ -105,12 +110,11 @@ module.exports = function(grunt) {
         files: {
           'public/dist/client.min.js': ['public/dist/client.js'],
           'public/dist/lib.min.js': ['public/dist/lib.js'],
-          'public/dist/style.min.css': ['public/style.css'],
         }
       }
     },
 
-    clean: ["public/dist"],
+    clean: ['public/dist'],
 
   });
 
@@ -137,29 +141,26 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('start', [
-    'nodemon', 
-  ]);
-
   grunt.registerTask('git', [
     'gitadd', 'gitcommit', 'gitpush'
   ]);
 
   grunt.registerTask('build', [
-    'clean', 'concat', 'uglify'
+    'eslint', 'test', 'clean', 'concat', 'uglify', 'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
       // add your production server task here
+      grunt.task.run(['build', 'git']);
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
 
   grunt.registerTask('deploy', [
-    'eslint' // add your deploy tasks here
+    // add your deploy tasks here
+    'nodemon',
   ]);
-
 
 };
