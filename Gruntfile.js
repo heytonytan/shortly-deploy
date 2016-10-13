@@ -53,6 +53,38 @@ module.exports = function(grunt) {
       prodServer: {
       }
     },
+
+    gitadd: {
+      task: {
+        options: {
+          force: false,
+          all: true
+        }
+      }
+    },
+
+    gitcommit: {
+      your_target: {
+        options: {
+          message: 'Grunt doing automated commit'
+          // Target-specific options go here. 
+        },
+        files: {
+            // Specify the files you want to commit 
+        }
+      }
+    },
+
+    gitpush: {
+      your_target: {
+        options: {
+          // Target-specific options go here.
+          remote: 'live7',
+          branch: 'master' 
+        }
+      }
+    },
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -63,6 +95,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-git');
 
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([ 'nodemon', 'watch' ]);
@@ -74,6 +107,14 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', [
     'mochaTest'
+  ]);
+
+  grunt.registerTask('start', [
+    'nodemon', 
+  ]);
+
+  grunt.registerTask('git', [
+    'gitadd', 'gitcommit', 'gitpush'
   ]);
 
   grunt.registerTask('build', [
