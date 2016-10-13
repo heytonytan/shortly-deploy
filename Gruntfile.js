@@ -2,8 +2,6 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    concat: {
-    },
 
     mochaTest: {
       test: {
@@ -20,12 +18,11 @@ module.exports = function(grunt) {
       }
     },
 
-    uglify: {
-    },
 
     eslint: {
       target: [
         // Add list of files to lint here
+        '*.js'
       ]
     },
 
@@ -64,7 +61,7 @@ module.exports = function(grunt) {
     },
 
     gitcommit: {
-      your_target: {
+      target: {
         options: {
           message: 'Grunt doing automated commit'
           // Target-specific options go here. 
@@ -76,7 +73,7 @@ module.exports = function(grunt) {
     },
 
     gitpush: {
-      your_target: {
+      target: {
         options: {
           // Target-specific options go here.
           remote: 'live7',
@@ -85,12 +82,43 @@ module.exports = function(grunt) {
       }
     },
 
+    concat: {
+      options: {
+        separator: ';',
+        stripBanners: true,
+      },
+      client: {
+        src: ['public/client/*.js'],
+        dest: 'public/dist/client.js',
+      },
+      lib: {
+        src: ['public/lib/*.js'],
+        dest: 'public/dist/lib.js',
+      },
+    },
+
+    uglify: {
+      options: {
+        mangle: true,
+      },
+      target: {
+        files: {
+          'public/dist/client.min.js': ['public/dist/client.js'],
+          'public/dist/lib.min.js': ['public/dist/lib.js'],
+          'public/dist/style.min.css': ['public/style.css'],
+        }
+      }
+    },
+
+    clean: ["public/dist"],
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
@@ -118,6 +146,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'clean', 'concat', 'uglify'
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -129,7 +158,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('deploy', [
-    // add your deploy tasks here
+    'eslint' // add your deploy tasks here
   ]);
 
 
