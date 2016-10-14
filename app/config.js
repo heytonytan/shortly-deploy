@@ -10,7 +10,8 @@ var path = require('path');
 var db = require('mongoose');
 // db.connect('mongodb://' + __dirname + '../db');
 
-db.connect('mongodb://localhost');
+// AWS EC2 instance
+db.connect('mongodb://172.31.6.223');
 
 // // *** Move to link.js
 // db.knex.schema.hasTable('urls').then(function(exists) {
