@@ -17,9 +17,19 @@ userSchema.pre('validate', function(next) {
   next();
 });
 
+// userSchema.methods.comparePassword = function(attemptedPassword, callback) {
+//   bcrypt.compare(attemptedPassword, this.get('password'), function(err, isMatch) {
+//     callback(isMatch);
+//   });
+// };
+
 userSchema.methods.comparePassword = function(attemptedPassword, callback) {
   bcrypt.compare(attemptedPassword, this.get('password'), function(err, isMatch) {
-    callback(isMatch);
+    if (err) {
+      callback(err, isMatch);
+    } else {
+      callback(null, isMatch);
+    }
   });
 };
 
